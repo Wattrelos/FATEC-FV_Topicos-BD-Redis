@@ -390,10 +390,8 @@ No comércio eletrônico, alta disponibilidade, consistência e tempos de respos
 flowchart TD
     Cliente[Cliente Web / Mobile] -->|1. Solicita Produto| API[Backend da Aplicação]
     API -->|2. Consulta Cache| Redis[(Redis em Memória)]
-    
-    Redis -- "Cache Hit (Encontrado)" -->|3a. Resposta Imediata < 2ms| API
-    
-    Redis -- "Cache Miss (Não Encontrado)" -->|3b. Ausente| API
+    Redis --> s13 -->|3a. Resposta Imediata menos de 2ms| API
+    Redis --> s14 -->|3b. Ausente| API
     API -->|4. Consulta Relacional| SQL[(Banco PostgreSQL / MySQL)]
     SQL -->|5. Retorna Dados| API
     API -->|6. Salva no Cache com TTL| Redis
