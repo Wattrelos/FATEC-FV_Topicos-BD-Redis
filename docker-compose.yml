@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  redis:  
+    image: redis:7.0-alpine # Usa a imagem oficial do Redis baseada no Alpine Linux (que é bem leve).
+    container_name: redis-cache
+    restart: always # Reinicia o container automaticamente caso ele caia ou o servidor seja reiniciado.
+    ports:
+      - "6378:6379" # Expõe a porta 6379 do container na porta 6378 do host.
+    command: redis-server --requirepass sua_senha_segura_aqui # Define uma senha para o Redis.
+    volumes:
+      - redis_data:/data # Garante que os dados gravados pelo Redis não sejam perdidos quando o container for parado ou recriado.
+    networks:
+      - redis-network
+
+volumes:
+  redis_data: # Cria um volume para persistir os dados do Redis.
+
+networks:
+  redis-network: # Define a rede que os containers irão usar.
+    driver: bridge # Usa a rede padrão do Docker.
